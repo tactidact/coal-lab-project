@@ -1,5 +1,5 @@
 # CSC211 COAL Lab Project
-## 2D Matrix Calculator
+## 2x2 Matrix Calculator
 ### Features
 - [x] Print Matrix
 - [x] Addition

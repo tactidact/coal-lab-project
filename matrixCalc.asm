@@ -44,7 +44,7 @@ mPrintString MACRO string
 ENDM
 
 .data
-    msgWelcome BYTE "2D Matrix Calculator",0Dh,0Ah,0
+    msgWelcome BYTE "2x2 Matrix Calculator",0Dh,0Ah,0
     msgMenu BYTE "--------------------",0Dh,0Ah,"Select an operation: ",0Dh,0Ah,"1. Addition",0Dh,0Ah,"2. Subtraction",0Dh,0Ah,"3. Determinant",0Dh,0Ah,"4. Scalar Multiplication",0Dh,0Ah,"5. Matrix Multiplication",0Dh,0Ah,"0. Quit Calculator",0Dh,0Ah,0
     msgChoice BYTE "Choice: ",0
     msgInvalidInput BYTE "Invalid input! Try again.",0Dh,0Ah,0
