@@ -5,6 +5,6 @@
 - [x] Addition
 - [x] Subtraction
 - [x] Determinant
-- [ ] Scalar Multiplication
+- [x] Scalar Multiplication
 - [ ] Matrix Multiplication
 - [ ] Menu

@@ -51,6 +51,7 @@ ENDM
     result  DWORD 4 DUP(?)
     msgResult BYTE "Result Matrix",0Dh,0Ah,0
     determinant DWORD ?
+    scalar DWORD ?
     rows  DWORD 2
     cols  DWORD 2
     space BYTE " ",0
@@ -60,18 +61,19 @@ ENDM
     msgElementPromptL BYTE "Enter element ",0
     msgElementPromptR BYTE ": ",0
     msgDeterminant BYTE "Determinant = ",0
+    msgEnterScalar BYTE "Enter scalar: ",0
 .code
 main PROC
-        mInputMatrix A
-        mPrintString msgA
-         mPrintMatrix A
-         CALL calcDeterminant
-        ;  mPrintString msgB
-        ;  mPrintMatrix B
-        ;  CALL subMatrices
-        ;  mPrintString msgResult
-        ;  mPrintMatrix result
-exit
+    mInputMatrix A
+    mPrintString msgA
+    mPrintMatrix A
+    CALL calcDeterminant
+    CALL scalarMultiplication
+
+    ;  mPrintString msgB
+    ;  mPrintMatrix B
+    ;  CALL subMatrices
+    exit
 main ENDP
 
 ;add matrices A and B
@@ -117,12 +119,27 @@ calcDeterminant PROC
     MOV edx,OFFSET msgDeterminant
     CALL WriteString
     CALL WriteInt
+    CALL crlf
     RET
 calcDeterminant ENDP
 
-; ;description
-; scalarMultiplication PROC
-
-;     RET
-; scalarMultiplication ENDP
+;description
+scalarMultiplication PROC
+    MOV edx,OFFSET msgEnterScalar
+    CALL WriteString
+    CALL ReadInt
+    MOV scalar,eax
+    MOV ecx,1
+    MOV ebx,0
+    .while ecx<=LENGTHOF A
+        MOV eax,[A+ebx]
+        IMUL scalar
+        MOV [result+ebx],eax
+        ADD ebx,TYPE A
+        INC ecx
+    .endw
+    mPrintString msgResult
+    mPrintMatrix result
+    RET
+scalarMultiplication ENDP
 END main
