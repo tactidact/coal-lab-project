@@ -4,6 +4,7 @@
 - [x] Print Matrix
 - [x] Addition
 - [x] Subtraction
-- [ ] Determinant
+- [x] Determinant
 - [ ] Scalar Multiplication
 - [ ] Matrix Multiplication
+- [ ] Menu

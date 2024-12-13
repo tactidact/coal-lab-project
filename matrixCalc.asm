@@ -50,6 +50,7 @@ ENDM
     msgB BYTE "Matrix B",0Dh,0Ah,0
     result  DWORD 4 DUP(?)
     msgResult BYTE "Result Matrix",0Dh,0Ah,0
+    determinant DWORD ?
     rows  DWORD 2
     cols  DWORD 2
     space BYTE " ",0
@@ -58,17 +59,19 @@ ENDM
     msgInputMatrix BYTE "Input matrix elements:",0Dh,0Ah,0
     msgElementPromptL BYTE "Enter element ",0
     msgElementPromptR BYTE ": ",0
+    msgDeterminant BYTE "Determinant = ",0
 .code
 main PROC
         mInputMatrix A
         mPrintString msgA
          mPrintMatrix A
-         mPrintString msgB
-         mPrintMatrix B
-         CALL subMatrices
-         mPrintString msgResult
-         mPrintMatrix result
-         exit
+         CALL calcDeterminant
+        ;  mPrintString msgB
+        ;  mPrintMatrix B
+        ;  CALL subMatrices
+        ;  mPrintString msgResult
+        ;  mPrintMatrix result
+exit
 main ENDP
 
 ;add matrices A and B
@@ -103,4 +106,23 @@ subMatrices PROC
     RET
 subMatrices ENDP
 
+;calculate the determinant of matrix A
+calcDeterminant PROC
+    MOV eax,[A]
+    IMUL eax,[A+12]
+    MOV ebx,[A+4]
+    IMUL ebx,[A+8]
+    SUB eax,ebx
+    MOV determinant,eax
+    MOV edx,OFFSET msgDeterminant
+    CALL WriteString
+    CALL WriteInt
+    RET
+calcDeterminant ENDP
+
+; ;description
+; scalarMultiplication PROC
+
+;     RET
+; scalarMultiplication ENDP
 END main
