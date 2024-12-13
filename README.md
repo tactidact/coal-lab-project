@@ -7,4 +7,4 @@
 - [x] Determinant
 - [x] Scalar Multiplication
 - [x] Matrix Multiplication
-- [ ] Menu
+- [x] Menu
