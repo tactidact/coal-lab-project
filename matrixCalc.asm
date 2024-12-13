@@ -44,7 +44,7 @@ mPrintString MACRO string
 ENDM
 
 .data
-    A   DWORD 4 DUP(?)
+    A   DWORD 3,1,6,2
     msgA BYTE "Matrix A",0Dh,0Ah,0
     B   DWORD 2,3,4,6
     msgB BYTE "Matrix B",0Dh,0Ah,0
@@ -55,20 +55,20 @@ ENDM
     rows  DWORD 2
     cols  DWORD 2
     space BYTE " ",0
-    msgAdd BYTE "Addtion",0Dh,0Ah,0
-    msgSub BYTE "Subtraction",0Dh,0Ah,0
+    msgAdd BYTE "A + B = ",0Dh,0Ah,0
+    msgSub BYTE "A - B = ",0Dh,0Ah,0
     msgInputMatrix BYTE "Input matrix elements:",0Dh,0Ah,0
     msgElementPromptL BYTE "Enter element ",0
     msgElementPromptR BYTE ": ",0
-    msgDeterminant BYTE "Determinant = ",0
+    msgDeterminant BYTE "|A| = ",0
     msgEnterScalar BYTE "Enter scalar: ",0
 .code
 main PROC
-    mInputMatrix A
-    mPrintString msgA
-    mPrintMatrix A
-    CALL calcDeterminant
-    CALL scalarMultiplication
+    ; mInputMatrix A
+    ; mPrintString msgA
+    ; mPrintMatrix A
+    ; CALL calcDeterminant
+    CALL matrixMult
 
     ;  mPrintString msgB
     ;  mPrintMatrix B
@@ -123,8 +123,8 @@ calcDeterminant PROC
     RET
 calcDeterminant ENDP
 
-;description
-scalarMultiplication PROC
+;multiply a matrix by a scalar
+scalarMult PROC
     MOV edx,OFFSET msgEnterScalar
     CALL WriteString
     CALL ReadInt
@@ -141,5 +141,44 @@ scalarMultiplication PROC
     mPrintString msgResult
     mPrintMatrix result
     RET
-scalarMultiplication ENDP
+scalarMult ENDP
+
+;description
+matrixMult PROC
+    ;calculating result_11
+    MOV eax,[A] ;A_11
+    IMUL [B]    ;B_11
+    MOV ebx,[A+TYPE A]  ;A_12
+    IMUL ebx,[B+TYPE B+TYPE B] ;B_21
+    ADD eax,ebx
+    MOV [result],eax    ;1
+
+    ;calculating result_12
+    MOV eax,[A] ;A_11
+    IMUL [B+TYPE A] ;B_12
+    MOV ebx,[A+TYPE A]  ;A_12
+    IMUL ebx,[B+TYPE B+TYPE B+TYPE B]   ;B_22
+    ADD eax,ebx
+    MOV [result+TYPE result],eax
+
+    ;calculating result_21
+    MOV eax,[A+TYPE A+TYPE A]   ;A_21
+    IMUL [B]    ;B_11
+    MOV ebx,[A+TYPE A+TYPE A+TYPE A]    ;A_22
+    IMUL ebx,[B+TYPE B+TYPE B]  ;B_21
+    ADD eax,ebx
+    MOV [result+TYPE result+TYPE result],eax
+
+    ;calculating result_22
+    MOV eax,[A+TYPE A+TYPE A]   ;A_21
+    IMUL [B+TYPE A] ;B_12
+    MOV ebx,[A+TYPE A+TYPE A+TYPE A]    ;A_22
+    IMUL ebx,[B+TYPE B+TYPE B+TYPE B]   ;B_22
+    ADD eax,ebx
+    MOV [result+TYPE result+TYPE result+TYPE result],eax
+
+    mPrintString msgResult
+    mPrintMatrix result
+    RET
+matrixMult ENDP
 END main

@@ -6,5 +6,5 @@
 - [x] Subtraction
 - [x] Determinant
 - [x] Scalar Multiplication
-- [ ] Matrix Multiplication
+- [x] Matrix Multiplication
 - [ ] Menu
